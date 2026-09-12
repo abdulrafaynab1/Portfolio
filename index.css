@@ -1,0 +1,302 @@
+/* ============================================================
+   DESIGN TOKENS
+   Palette is grounded in a workbench-at-night feel: warm dark
+   base like unlit FR4, copper trace accent, aged phosphor-green
+   secondary (oscilloscope glow), warm cream ink for text.
+   ============================================================ */
+:root {
+  --bg: #17130f;
+  --bg-surface: #201a14;
+  --bg-surface-2: #2a2119;
+  --border: #3c2f22;
+  --border-soft: #2c2318;
+
+  --copper: #c1813f;
+  --copper-bright: #e0a35f;
+  --phosphor: #7fa37a;
+  --phosphor-bright: #9dc198;
+
+  --text: #f1e8da;
+  --text-muted: #b6a58e;
+  --text-faint: #7d7060;
+
+  --font-display: 'Fraunces', ui-serif, Georgia, serif;
+  --font-body: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', monospace;
+
+  --radius: 6px;
+  --max-width: 1080px;
+}
+
+/* Light theme — same accent hues, warm paper background instead of
+   workbench-at-night. Toggled via [data-theme="light"] on <html>. */
+:root[data-theme='light'] {
+  --bg: #f6f0e6;
+  --bg-surface: #ffffff;
+  --bg-surface-2: #efe6d6;
+  --border: #ddceb3;
+  --border-soft: #e8ddc7;
+
+  --copper: #a8632a;
+  --copper-bright: #c17b34;
+  --phosphor: #4f7a4a;
+  --phosphor-bright: #3d6438;
+
+  --text: #241c12;
+  --text-muted: #5c5142;
+  --text-faint: #8c8070;
+}
+
+:root[data-theme='light'] .btn-primary {
+  color: #fff8ee;
+}
+
+/* Nav uses a translucent backdrop over the page background — needs its
+   own theme-aware color since it layers opacity on top of --bg. */
+:root {
+  --nav-overlay: rgba(23, 19, 15, 0.75);
+}
+
+:root[data-theme='light'] {
+  --nav-overlay: rgba(246, 240, 230, 0.82);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  background-image:
+    radial-gradient(var(--border) 1px, transparent 1px),
+    radial-gradient(ellipse 900px 500px at 15% -10%, rgba(193, 129, 63, 0.10), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 100% 20%, rgba(127, 163, 122, 0.06), transparent 60%);
+  background-size: 26px 26px, auto, auto;
+  background-position: -6px -6px, 0 0, 0 0;
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
+}
+
+:root[data-theme='light'] body {
+  background-image:
+    radial-gradient(var(--border) 1px, transparent 1px),
+    radial-gradient(ellipse 900px 500px at 15% -10%, rgba(193, 129, 63, 0.08), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 100% 20%, rgba(79, 122, 74, 0.05), transparent 60%);
+  background-size: 26px 26px, auto, auto;
+  background-position: -6px -6px, 0 0, 0 0;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  margin: 0;
+  color: var(--text);
+}
+
+a {
+  color: inherit;
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(193, 129, 63, 0.12);
+  border: 1px solid rgba(193, 129, 63, 0.32);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--copper);
+}
+
+.eyebrow::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--phosphor-bright);
+  box-shadow: 0 0 5px var(--phosphor);
+  flex-shrink: 0;
+}
+
+.section {
+  padding: 96px 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.section-head {
+  margin-bottom: 48px;
+  max-width: 560px;
+}
+
+.section-head h2 {
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  margin-top: 10px;
+}
+
+.section-head p {
+  color: var(--text-muted);
+  margin-top: 12px;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+button, .btn {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.92rem;
+  cursor: pointer;
+  border: none;
+}
+
+.btn {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: var(--radius);
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.25) 50%,
+    transparent 100%
+  );
+  transform: skewX(-20deg);
+  transition: left 0.5s ease;
+  pointer-events: none;
+}
+
+.btn:hover::after {
+  left: 120%;
+}
+
+.btn:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.btn-primary {
+  background: linear-gradient(180deg, var(--copper-bright), var(--copper));
+  color: #1a1208;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.25) inset, 0 6px 16px rgba(193, 129, 63, 0.25);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset, 0 10px 22px rgba(193, 129, 63, 0.35);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn-ghost:hover {
+  border-color: var(--copper);
+  color: var(--copper-bright);
+}
+
+::selection {
+  background: var(--copper);
+  color: #1a1208;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--copper-bright);
+  outline-offset: 3px;
+}
+
+/* Scroll-reveal, used by <Reveal>. A real keyframe "jump" — it
+   overshoots past its resting position and springs back, rather
+   than gliding smoothly into place. */
+.reveal {
+  opacity: 0;
+}
+
+.reveal-visible {
+  animation: bubble-in 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes bubble-in {
+  0% {
+    opacity: 0;
+    transform: translateY(56px) scale(0.75);
+  }
+  45% {
+    opacity: 1;
+    transform: translateY(-16px) scale(1.06);
+  }
+  65% {
+    transform: translateY(8px) scale(0.97);
+  }
+  82% {
+    transform: translateY(-4px) scale(1.015);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Small "power on" pulse used on a few status dots for liveliness */
+@keyframes soft-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Smooth crossfade when toggling theme, via the View Transitions API
+   (Chrome/Edge). Browsers without support just switch instantly. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (max-width: 720px) {
+  .section {
+    padding: 64px 0;
+  }
+}
